@@ -24,7 +24,9 @@ function App() {
     } else if (currentPage.startsWith("code/")) {
       const codeBlockIndex = parseInt(currentPage.split("/")[1], 10);
       const codeBlock = codeBlocks[codeBlockIndex] || codeBlocks[0];
-      return <CodeBlock title={codeBlock.title} solution={codeBlock.solution}/>;
+      return <CodeBlock 
+        title={codeBlock.title} 
+        solution={codeBlock.solution}/>;
     }
     return null;
   };

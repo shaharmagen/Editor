@@ -32,15 +32,27 @@ code {
 }
 
 .block {
-  height: 6vh;
+  height: 10vh;
   width: 20vw;
   margin-right: 5px;
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* codeBlock component style */
 .codeBlock {
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.topPage {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 
