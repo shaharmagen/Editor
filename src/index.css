@@ -37,7 +37,7 @@ code {
   margin-right: 5px;
 }
 
-/* Lobby component style */
+/* codeBlock component style */
 .codeBlock {
   display: flex;
   flex-direction: column;
@@ -47,4 +47,8 @@ code {
 .blockTitle {
   font-size: 50px;
   text-shadow: 1px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.smiley {
+  height: 50vh;
 }

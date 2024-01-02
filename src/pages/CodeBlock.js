@@ -5,6 +5,7 @@ import Editor from "@monaco-editor/react";
 function CodeBlock(props) {
   const [code, setCode] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);
+  const [isCorrect, setIsCorrect] = useState(false);
   const socketRef = useRef(null); // Use useRef to keep a mutable reference
 
   useEffect(() => {
@@ -30,17 +31,30 @@ function CodeBlock(props) {
   }, []);
 
   const handleEditorChange = (value) => {
+    
     setCode(value);
+
+  
     if (!isReadOnly && socketRef.current) {
       socketRef.current.emit("code-change", value);
     }
+
+    // Check if the current code matches the solution
+    setIsCorrect(value === props.solution);
+    
   };
 
   return (
     <div className="codeBlock">
         <h1 className="blockTitle">{props.title}</h1>
+        {isCorrect && 
+        <img 
+          src="./images/smiley.png" 
+          alt="smiley"
+          className="smiley"/>
+          }
         <Editor
-          height="90vh" // or set a specific height
+          height="90vh" 
           language="javascript"
           value={code}
           onChange={handleEditorChange}
@@ -49,6 +63,8 @@ function CodeBlock(props) {
             automaticLayout: true
           }}
         />
+
+        
     </div>
   );
 }

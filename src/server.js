@@ -19,6 +19,7 @@ const io = new Server(server, {
 let userCount = 0;
 
 io.on('connection', (socket) => {
+    console.log('connected');
     // Hnadle assign role.
     // The first user who opens the code block page is the mentor
     userCount++;

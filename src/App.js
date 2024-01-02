@@ -6,10 +6,10 @@ function App() {
   const [currentPage, setCurrentPage] = useState("lobby");
 
   const codeBlocks = [
-    { title: "Async Case", code: "" },
-    { title: "Callback Function", code: "" },
-    { title: "Init Function", code: "" },
-    { title: "Set Function", code: "" },
+    { title: "Async Case", code: "" , solution: "Async Case solution"},
+    { title: "Callback Function", code: "", solution: "Callback Function solution" },
+    { title: "Init Function", code: "" , solution: "Init Function solution"},
+    { title: "Set Function", code: "", solution: "Set Function solution" },
   ];
 
   const navigateToCodeBlock = (index) => {
@@ -24,7 +24,7 @@ function App() {
     } else if (currentPage.startsWith("code/")) {
       const codeBlockIndex = parseInt(currentPage.split("/")[1], 10);
       const codeBlock = codeBlocks[codeBlockIndex] || codeBlocks[0];
-      return <CodeBlock title={codeBlock.title} />;
+      return <CodeBlock title={codeBlock.title} solution={codeBlock.solution}/>;
     }
     return null;
   };
