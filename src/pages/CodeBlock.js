@@ -31,17 +31,12 @@ function CodeBlock(props) {
   }, []);
 
   const handleEditorChange = (value) => {
-    
     setCode(value);
-
-  
     if (!isReadOnly && socketRef.current) {
       socketRef.current.emit("code-change", value);
     }
-
     // Check if the current code matches the solution
     setIsCorrect(value === props.solution);
-    
   };
 
   return (
@@ -51,8 +46,7 @@ function CodeBlock(props) {
         <img 
           src="./images/smiley.png" 
           alt="smiley"
-          className="smiley"/>
-          }
+          className="smiley"/>}
         <Editor
           height="90vh" 
           language="javascript"
@@ -63,8 +57,6 @@ function CodeBlock(props) {
             automaticLayout: true
           }}
         />
-
-        
     </div>
   );
 }
