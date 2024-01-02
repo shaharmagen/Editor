@@ -9,7 +9,7 @@ function CodeBlock(props) {
 
   useEffect(() => {
       // Connect to the server
-      socketRef.current = io.connect('http://localhost:3000'); 
+      socketRef.current = io.connect('http://localhost:3000', { transports: ['websocket'] }); 
 
       // Listen for role updates from the server
       socketRef.current.on('assign-role', (role) => {

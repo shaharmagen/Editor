@@ -2,27 +2,31 @@
 const express = require("express");
 const http = require("http");
 const {Server} = require("socket.io");
+const cors = require('cors');
 
 const app = express();
+app.use(cors()); // Use cors middleware for all routes
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      transports: ['websocket'] // ensure WebSocket is enabled
+    }
+  });
 
 // Track the number of users
 let userCount = 0;
 
 io.on('connection', (socket) => {
-    console.log('connected');
-
     // Hnadle assign role.
     // The first user who opens the code block page is the mentor
     userCount++;
     const role = userCount === 1 ? 'mentor' : 'student';
-    console.log(`Role assigned: ${role}`); // Debugging
     socket.emit('assign-role', role);
 
     // Handle code change
     socket.on('code-change', (code) => {
-        console.log(`Code change received: ${code}`); // Debugging
         if (role === 'student') {
             //Broadcast the changed code to the mentor
             socket.broadcast.emit('code-change', code);
