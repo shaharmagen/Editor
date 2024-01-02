@@ -7,7 +7,7 @@ function Lobby(props) {
       <div className="codeBlocks">
         {props.codeBlocks.map((block, index) => (
           <div key={index}>
-            <button onClick={() => props.navigateToCodeBlock(index)}>
+            <button className="block" onClick={() => props.navigateToCodeBlock(index)}>
               {block.title}
             </button>
           </div>

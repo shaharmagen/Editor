@@ -1,36 +1,25 @@
 import React, {useEffect, useState, useRef} from "react";
 import io from "socket.io-client";
-// import hljs from "highlight.js";
-// import "highlight.js/styles/atom-one-dark.css";
+import Editor from "@monaco-editor/react";
 
 function CodeBlock(props) {
-  const [title, setTitle] = useState(props.title);
   const [code, setCode] = useState('');
-  const [readOnly, setReadOnly] = useState(false);
-  const [isMentor, setIsMentor] = useState(false);
+  const [isReadOnly, setIsReadOnly] = useState(true);
   const socketRef = useRef(null); // Use useRef to keep a mutable reference
-
 
   useEffect(() => {
       // Connect to the server
       socketRef.current = io.connect('http://localhost:3000'); 
 
-      //the first user who opens the code block page is the mentor
-      // socket.on("assign-mentor", ({ isMentor }) => {
-      //   setIsMentor(isMentor);
-      //   setReadOnly(isMentor);
-      // });
+      // Listen for role updates from the server
+      socketRef.current.on('assign-role', (role) => {
+        setIsReadOnly(role !== 'student'); // Set read-only based on role
+      });
 
       // Listen for code updates from the server
       socketRef.current.on("code-change", (code) => {
           setCode(code);
       });
-
-      //initial setup for the mentor
-      // if (isMentor) {
-      //     // Emit the initial code to the server
-      //     socket.emit("code-change", { title, code: editor.value });
-      // }
 
       // Cleanup function when component unmounts
       return () => {
@@ -40,36 +29,26 @@ function CodeBlock(props) {
       };
   }, []);
 
-  // useEffect(() => {
-  //     hljs.highlightAll();
-  //   }, [code]);
-
-  // const handleTitleChange = (event) => {
-  //   setTitle(event.target.value);
-  // };
-
-  const handleCodeChange = (event) => {
-    const updatedCode = event.target.value;
-    setCode(updatedCode);
-    if (socketRef.current) {
-      socketRef.current.emit("code-change", updatedCode);
+  const handleEditorChange = (value) => {
+    setCode(value);
+    if (!isReadOnly && socketRef.current) {
+      socketRef.current.emit("code-change", value);
     }
   };
 
   return (
-    <div className="codeblock">
-        <h1
-          className="title" 
-          // onChange={handleTitleChange}
-          >
-          {title}
-        </h1>
-        <textarea
-          id="editor"
+    <div className="codeBlock">
+        <h1 className="blockTitle">{props.title}</h1>
+        <Editor
+          height="90vh" // or set a specific height
+          language="javascript"
           value={code}
-          onChange={handleCodeChange}
-          // readOnly={readOnly}
-      />
+          onChange={handleEditorChange}
+          options={{
+            readOnly: isReadOnly,
+            automaticLayout: true
+          }}
+        />
     </div>
   );
 }
