@@ -1,3 +1,6 @@
+# Introduction:
+A collaborative coding web app using React, HTML, CSS, Socket.io, and Express, allowing work on code blocks together with live updates and syntax highlighting.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
